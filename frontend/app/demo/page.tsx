@@ -2,7 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 
-const StatCard = ({ imageSrc, imageAlt, statValue, statLabel, trendValue, trendIcon, trendLabel }) => (
+interface StatCardProps {
+  imageSrc: string;
+  imageAlt: string;
+  statValue: string; // Adjust the type based on what you actually expect (number, string, etc.)
+  statLabel: string;
+  trendValue: string; // Adjust the type based on what you actually expect
+  trendIcon: string;
+  trendLabel: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ imageSrc, imageAlt, statValue, statLabel, trendValue, trendIcon, trendLabel }) => (
   <div className="flex flex-col grow px-6 py-5 mx-auto w-full bg-gray-900 rounded-xl border border-gray-800 border-solid shadow-sm max-md:pl-5 max-md:mt-6">
     <div className="flex gap-5 justify-between items-start">
       <img loading="lazy" src={imageSrc} alt={imageAlt} className="shrink-0 mt-1 border border-solid shadow-sm aspect-[0.93] border-zinc-700 w-[51px]" />
@@ -26,7 +36,16 @@ const StatCard = ({ imageSrc, imageAlt, statValue, statLabel, trendValue, trendI
   </div>
 );
 
-const ExplanationCard = ({ bgColor, imageSrc, imageAlt, explanation, onClick, style}) => (
+interface ExplanationCardProps {
+  bgColor: string;
+  imageSrc: string;
+  imageAlt: string;
+  explanation: string;
+  onClick: () => void; // Assuming onClick is a function that takes no arguments and returns nothing
+  style?: React.CSSProperties;
+}
+
+const ExplanationCard: React.FC<ExplanationCardProps> = ({ bgColor, imageSrc, imageAlt, explanation, onClick, style}) => (
     <div 
       onClick={onClick}
       style={style} 
@@ -65,6 +84,8 @@ export default function Home() {
       imageAlt: "Active now icon",
       statValue: "316",
       statLabel: "Active now",
+      trendValue: "3%",
+      trendLabel: "vs yesterday",
       trendIcon: "https://cdn.builder.io/api/v1/image/assets/TEMP/6216462de55268ba1bb71845d29e54da3b03841a650353602eb94bdf39c6a292?apiKey=3eade93735fb450fa2988b2d5cdbbdff&",
     },
   ];
@@ -101,11 +122,11 @@ export default function Home() {
   ];
 
   // State to track visibility of each explanation card
-  const [visibleCards, setVisibleCards] = useState(new Array(initialExplanationCardsData.length).fill(true));
+  const [visibleCards, setVisibleCards] = useState<boolean[]>(new Array(initialExplanationCardsData.length).fill(true));
 
   // Function to handle click on a card
-  const handleCardClick = (index) => {
-    const updatedVisibility = [...visibleCards];
+  const handleCardClick = (index: number): void => {
+    const updatedVisibility: boolean[] = [...visibleCards];
     updatedVisibility[index] = false; // Set the clicked card to not visible
     setVisibleCards(updatedVisibility);
   };
