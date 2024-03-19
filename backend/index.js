@@ -7,16 +7,16 @@ const app = express();
 const port = 3001; // Ensure this does not conflict with your React app's port
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'kaizen_questions_and_answers'
+  host: 'kaizen.cbywsos0s1nd.us-west-1.rds.amazonaws.com',
+  user: 'boey',
+  password: 'boeyeatskaizen',
+  database: 'kaizen'
 });
 
 app.use(cors());
 
 app.get('/api/explanation-content', (req, res) => {
-    pool.query('SELECT * FROM given_questions_and_responses WHERE id = 3', (error, results) => {
+    pool.query('SELECT * FROM questions WHERE question_id = 1', (error, results) => {
       if (error) {
         return res.status(500).json({ error: error.message });
       }
@@ -24,8 +24,8 @@ app.get('/api/explanation-content', (req, res) => {
       if (results.length > 0) {
         const [content] = results;
         res.json({
-          question: content.Question,
-          answers: [content.Answer_1, content.Answer_2, content.Answer_3, content.Answer_4]
+          question: content.question,
+          answers: [content.response_1, content.response_2, content.response_3, content.response_4]
         });
       } else {
         res.status(404).json({ message: "Content not found" });
