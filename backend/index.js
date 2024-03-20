@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
-const port = 3001; // Ensure this does not conflict with your React app's port
+const port = process.env.PORT || 5000; // Ensure this does not conflict with your React app's port
 
 const pool = mysql.createPool({
   host: 'kaizen.cbywsos0s1nd.us-west-1.rds.amazonaws.com',
@@ -36,4 +36,3 @@ app.get('/api/explanation-content', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
