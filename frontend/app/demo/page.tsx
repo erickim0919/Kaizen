@@ -135,12 +135,12 @@ export default function Home() {
   const [question, setQuestion] = useState('');
 
   useEffect(() => {
-    fetch('https://kaizen-av8c.onrender.com/api/explanation-content') // Adjust this URL to match your backend
+    fetch('https://kaizen-backend.vercel.app/api/explanation-content') // Adjust this URL to match your backend
       .then(response => response.json())
       .then(data => {
         setQuestion(data.question);
         // Assuming `data.answers` is an array of explanations corresponding to each card
-        const updatedData = initialExplanationCardsData.map((card, index) => {
+        const updatedData = explanationCardsData.map((card, index) => {
           return { ...card, explanation: data.answers[index] };
         });
         setExplanationCardsData(updatedData);
