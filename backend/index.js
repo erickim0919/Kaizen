@@ -14,8 +14,15 @@ const pool = mysql.createPool({
 });
 
 app.use(cors());
+app.options('*', cors());
 
-app.get('/', (req, res) => {
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+  });
+
+app.get('/api', (req, res) => {
     pool.query('SELECT * FROM questions WHERE question_id = 1', (error, results) => {
       if (error) {
         return res.status(500).json({ error: error.message });

@@ -135,7 +135,7 @@ export default function Home() {
   const [question, setQuestion] = useState('');
 
   useEffect(() => {
-    fetch('backend-eight-flax.vercel.app/') // Adjust this URL to match your backend
+    fetch('https://kaizen-av8c.onrender.com/api') // Adjust this URL to match your backend
       .then(response => response.json())
       .then(data => {
         setQuestion(data.question);
