@@ -15,7 +15,7 @@ const pool = mysql.createPool({
 
 app.use(cors());
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
     pool.query('SELECT * FROM questions WHERE question_id = 1', (error, results) => {
       if (error) {
         return res.status(500).json({ error: error.message });
