@@ -135,18 +135,37 @@ export default function Home() {
   const [question, setQuestion] = useState('');
 
   useEffect(() => {
-    fetch('https://kaizen-av8c.onrender.com/api') // Adjust this URL to match your backend
-      .then(response => response.json())
-      .then(data => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/qna`, { // Adjust the endpoint as necessary
+          method: "GET",
+          credentials: "include", // If your API requires credentials, otherwise remove this line
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+  
         setQuestion(data.question);
-        // Assuming `data.answers` is an array of explanations corresponding to each card
+        // Create an array from the answer fields
+        const answers = [data.answer_1, data.answer_2, data.answer_3, data.answer_4];
+        // Update the explanation for each card based on the answers array
         const updatedData = explanationCardsData.map((card, index) => {
-          return { ...card, explanation: data.answers[index] };
+          // Ensure there's an answer for the current card to avoid undefined values
+          const newExplanation = answers[index] ? answers[index] : card.explanation;
+          return { ...card, explanation: newExplanation };
         });
         setExplanationCardsData(updatedData);
-      })
-      .catch(error => console.error('Error fetching explanation content:', error));
-  }, []);
+      } catch (error) {
+        console.error('Error fetching explanation content:', error);
+      }
+    };
+  
+    fetchData();
+  }, []); // This effect depends on no variables and thus runs only once after the initial render
 
   return (
     <div className="flex gap-0 bg-gray-900 max-md:flex-wrap">
