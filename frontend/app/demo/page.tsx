@@ -135,7 +135,7 @@ export default function Home() {
   const [question, setQuestion] = useState('');
 
   useEffect(() => {
-    fetch('http://backend-smoky-gamma.vercel.app/') // Adjust this URL to match your backend
+    fetch('http://localhost:3001') // Adjust this URL to match your backend
       .then(response => response.json())
       .then(data => {
         setQuestion(data.question);
